@@ -7,15 +7,25 @@ public class Habits {
     private int habitId=0;
     private int userId;
     private String habitName;
+    private String frequency;
     private boolean status;
     private LocalDateTime DateTime;
 
-    public Habits(int userId, String habitName) {
+    public Habits(int userId, String habitName,String frequency) {
         this.habitId=++habitId;
         this.userId = userId;
         this.habitName = habitName;
+        this.frequency = frequency;
         this.status = false;
         DateTime = LocalDateTime.now();
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     public LocalDateTime getDateTime() {

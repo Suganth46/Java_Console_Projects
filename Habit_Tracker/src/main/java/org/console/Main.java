@@ -39,7 +39,12 @@ public class Main {
 
         System.out.println("Welcome, "+m.currentUser.getUserName());
         while(true){
-            System.out.println("1. Add Habit\n2. View Habits");
+            System.out.println("1. Add Habit\n" +
+                    "2. View Habits\n" +
+                    "3. Mark as Complete\n" +
+                    "4. Delete Habit\n" +
+                    "5. My Progress\n" +
+                    "6. Logout\n");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -50,10 +55,77 @@ public class Main {
                 case 2:
                     m.viewHabits();
                     break;
+                case 3:
+                    m.markComplete();
+                    break;
+                case 4:
+                    m.deletHabit();
+                    break;
+                case 5:
+                    m.progress();
+                case 6:
+                    System.out.println("Logout.........");
+                    System.exit(0);
                 default:
                     System.out.println("Wrong choice");
             }
         }
+    }
+
+    private void progress() {
+        System.out.println("Progress for "+currentUser.getUserName());
+        int total=0;
+        int completed=0;
+        for(Habits h:habits){
+            if(currentUser.getUserId()==h.getUserId()){
+                total++;
+                completed=h.isStatus()?completed+1:completed;
+            }
+        }
+        System.out.println("Total: "+total);
+        System.out.println("Completed: "+completed);
+        System.out.println("Progress: "+(total-completed));
+        System.out.println("Completion: "+(total==0?0:(completed*100.0/total)));
+        String[] freq={"daily","weekly","monthly"};
+        for(String f:freq){
+            long count=habits.stream().filter(h-> {
+                            return currentUser.getUserId()==h.getUserId() && h.getFrequency().equals(f);
+            }).count();
+            long comp=habits
+                    .stream()
+                    .filter(h->{
+                        return currentUser.getUserId()==h.getUserId() && h.getFrequency().equals(f) && h.isStatus();
+                    }).count();
+            System.out.println(f+" "+comp+"/"+count);
+        }
+    }
+
+    private void deletHabit() {
+        viewHabits();
+        System.out.println("Enter Habit ID to Delete: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        for(Habits h:habits){
+            if(h.getHabitId()==id){
+                habits.remove(h);
+                return;
+            }
+        }
+        System.out.println("There is no such habit with that ID");
+    }
+
+    private void markComplete() {
+        viewHabits();
+        System.out.print("Enter Habit ID to mark complete: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        for(Habits h:habits){
+            if(h.getHabitId()==id){
+                h.setStatus(true);
+                return;
+            }
+        }
+        System.out.println("There is no such habit with that ID");
     }
 
     private void viewHabits() {
@@ -65,6 +137,7 @@ public class Main {
             if(h.getUserId()==currentUser.getUserId()){
                 System.out.println(h.getHabitId()+": "+h.getHabitName()+
                         "\nStatus: "+h.isStatus()+
+                        "\nFrequency: "+h.getFrequency()+
                         "\nCreated At: "+dateAndTime(h.getDateTime()));
             }
         }
@@ -76,7 +149,9 @@ public class Main {
     private void addHabit() {
         System.out.print("Enter Habit Name: ");
         String habitName = sc.nextLine();
-        habits.add(new Habits(currentUser.getUserId(),habitName));
+        System.out.print("Enter frequency(eg. Daily, Weekly, Monthly): ");
+        String frequency = sc.nextLine().toLowerCase();
+        habits.add(new Habits(currentUser.getUserId(),habitName,frequency));
     }
 
     private void login() {
