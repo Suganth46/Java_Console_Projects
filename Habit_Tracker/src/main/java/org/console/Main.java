@@ -1,6 +1,7 @@
 package org.console;
 
 import org.console.model.Habits;
+import org.console.model.Reward;
 import org.console.model.User;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class Main {
     private ArrayList<User> users=new ArrayList<>();
     private ArrayList<Habits> habits=new ArrayList<>();
     private User currentUser;
+    private Reward reward=new Reward();
     public static void main(String[] args) {
         Main m = new Main();
         do{
@@ -122,6 +124,7 @@ public class Main {
         for(Habits h:habits){
             if(h.getHabitId()==id){
                 h.setStatus(true);
+                currentUser.addPoints(reward.pointFor(h.getFrequency()));
                 return;
             }
         }

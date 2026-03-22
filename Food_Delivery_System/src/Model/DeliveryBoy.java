@@ -1,4 +1,5 @@
 package Model;
 
-public class DeliveryBoy {
+public class DeliveryBoy extends User {
+
 }

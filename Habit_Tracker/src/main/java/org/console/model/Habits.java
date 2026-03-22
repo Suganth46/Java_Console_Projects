@@ -3,8 +3,10 @@ package org.console.model;
 
 import java.time.LocalDateTime;
 
+
 public class Habits {
-    private int habitId=0;
+    private static int count=0;
+    private int habitId;
     private int userId;
     private String habitName;
     private String frequency;
@@ -12,7 +14,7 @@ public class Habits {
     private LocalDateTime DateTime;
 
     public Habits(int userId, String habitName,String frequency) {
-        this.habitId=++habitId;
+        this.habitId=++count;
         this.userId = userId;
         this.habitName = habitName;
         this.frequency = frequency;
