@@ -20,7 +20,7 @@ public class CustomerService {
         boolean flag=false;
         while(true){
         System.out.println("1. Register Customer\n" +
-                "2. Login Customer" +
+                "2. Login Customer\n" +
                 "3. Exit Customer");
         int ch=sc.nextInt();
         sc.nextLine();
@@ -43,14 +43,16 @@ public class CustomerService {
         }
         System.out.println("Welcome,"+customer.getName());
         while (true){
-            System.out.println("1. Restaruant\n" +
+            System.out.println("1. Restaruant List\n" +
                     "Exit");
+            System.out.print("Enter your choice: ");
             int ch=sc.nextInt();
             sc.nextLine();
             switch(ch){
                 case 1:
                     int res=restaurantService.getRestaruant();
                     restaurantService.menu(res);
+                    restaurantService.order(res);
                     break;
                 default:
                     return;
@@ -84,17 +86,17 @@ public class CustomerService {
 
     private boolean registerCustomer() {
         System.out.println("<---Register Customer--->");
-        System.out.print("Enter Customer Name: ");
-        String name=sc.nextLine();
-        System.out.print("Enter Customer Password: ");
-        String password=sc.nextLine();
-        System.out.print("Enter Customer Email: ");
-        String email=sc.nextLine();
-        System.out.print("Enter Customer Phone  Number: ");
-        String phone=sc.nextLine();
-        System.out.print("Enter Customer Address: ");
-        String address=sc.nextLine();
-        customer=new Customer(name,password,email,phone,address);
+//        System.out.print("Enter Customer Name: ");
+//        String name=sc.nextLine();
+//        System.out.print("Enter Customer Password: ");
+//        String password=sc.nextLine();
+//        System.out.print("Enter Customer Email: ");
+//        String email=sc.nextLine();
+//        System.out.print("Enter Customer Phone  Number: ");
+//        String phone=sc.nextLine();
+//        System.out.print("Enter Customer Address: ");
+//        String address=sc.nextLine();
+        customer=new Customer("Suganth","suganth@123","suganth@gmail.com","8262873223","coimbatore");
         dataBase.addCustomer(customer);
         System.out.println("Customer Registered Successfully");
         return true;
